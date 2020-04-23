@@ -261,6 +261,7 @@ namespace Microsoft.Teams.Apps.AskHR.Bots
                     var queryResult = await this.GetAnswerFromQnAMakerAsync(text, turnContext, cancellationToken);
                     if (queryResult != null)
                     {
+                        var qnaModel = JsonConvert.DeserializeObject<QnaAnswer>(JsonConvert.SerializeObject(queryResult));
                         this.telemetryClient.TrackTrace("Sending user QnAMaker card");
                         await turnContext.SendActivityAsync(MessageFactory.Attachment(ResponseCard.GetCard(queryResult.Questions[0], queryResult.Answer, text)));
                     }
